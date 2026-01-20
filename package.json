@@ -1,0 +1,22 @@
+{
+  "name": "com.novaframework.unity.common",
+  "displayName": "NovaFramework.Common",
+  "description": "The common module of core system for NovaFramework",
+  "version": "1.0.0",
+  "unity": "2018.3",
+  "unityRelease": "0f1",
+  "license": "MIT",
+  "keywords": [ "Unity", "NovaFramework", "Common" ],
+  "author": {
+    "name": "hurley",
+    "email": "yoseasoft@163.com",
+    "url": "https://github.com/yoseasoft/com.novaframework.unity.common"
+  },
+  "repository": {
+    "name": "com.novaframework.unity.common",
+    "type": "git",
+    "url": "https://github.com/yoseasoft/com.novaframework.unity.common.git"
+  },
+  "relatedPackages": {},
+  "dependencies": {}
+}
