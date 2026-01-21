@@ -1,5 +1,5 @@
 {
-  "name": "com.novaframework.unity.common",
+  "name": "com.novaframework.unity.core.common",
   "displayName": "NovaFramework.Common",
   "description": "The common module of core system for NovaFramework",
   "version": "1.0.0",
@@ -10,12 +10,12 @@
   "author": {
     "name": "hurley",
     "email": "yoseasoft@163.com",
-    "url": "https://github.com/yoseasoft/com.novaframework.unity.common"
+    "url": "https://github.com/yoseasoft/com.novaframework.unity.core.common"
   },
   "repository": {
-    "name": "com.novaframework.unity.common",
+    "name": "com.novaframework.unity.core.common",
     "type": "git",
-    "url": "https://github.com/yoseasoft/com.novaframework.unity.common.git"
+    "url": "https://github.com/yoseasoft/com.novaframework.unity.core.common.git"
   },
   "relatedPackages": {},
   "dependencies": {}
