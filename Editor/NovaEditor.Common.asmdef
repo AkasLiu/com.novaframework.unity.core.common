@@ -1,5 +1,5 @@
 {
-    "name": "Nova.Common.Editor",
+    "name": "NovaEditor.Common",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [
