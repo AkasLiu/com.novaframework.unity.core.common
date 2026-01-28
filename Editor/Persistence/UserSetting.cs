@@ -52,7 +52,7 @@ namespace NovaFramework.Editor
         /// <param name="value">记录值</param>
         public static void SetString(string key, string value)
         {
-            //EditorPrefs.SetString(key, value);
+            // EditorPrefs.SetString(key, value);
             EditorUserSettings.SetConfigValue(key, value);
         }
 
@@ -63,7 +63,7 @@ namespace NovaFramework.Editor
         /// <returns>若存在指定键对应的记录信息，则返回其值</returns>
         public static string GetString(string key)
         {
-            //return EditorPrefs.GetString(key);
+            // return EditorPrefs.GetString(key);
             return EditorUserSettings.GetConfigValue(key);
         }
 
