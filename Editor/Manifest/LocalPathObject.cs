@@ -1,6 +1,5 @@
 /// -------------------------------------------------------------------------------
-/// Copyright (C) 2024 - 2025, Hurley, Independent Studio.
-/// Copyright (C) 2025 - 2026, Hainan Yuanyou Information Technology Co., Ltd. Guangzhou Branch
+/// Copyright (C) 2026, Hainan Yuanyou Information Technology Co., Ltd. Guangzhou Branch
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +20,16 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
-namespace NovaFramework.Editor
+namespace NovaFramework.Editor.Manifest
 {
     /// <summary>
-    /// 环境上下文的配置类
+    /// 本地路径数据模型的序列化对象类
     /// </summary>
-    internal static class ContextSettings
+    public sealed class LocalPathObject
     {
-        /// <summary>
-        /// 通用模块的本地包名
-        /// </summary>
-        public const string LocalPackageNameOfCommonModule = @"com.novaframework.unity.core.common";
-
-        /// <summary>
-        /// Nova框架基础文件夹的本地安装路径
-        /// </summary>
-        public const string LocalInstallPathOfNovaFrameworkDataFolder = @"Assets/../NovaFrameworkData/";
-        /// <summary>
-        /// Nova框架仓库文件夹的本地安装路径
-        /// </summary>
-        public const string LocalInstallPathOfNovaFrameworkRepositoryFolder = @"Assets/../NovaFrameworkData/framework_repo/";
+        public string name;
+        public string defaultValue;
+        public string title;
+        public bool required;
     }
 }

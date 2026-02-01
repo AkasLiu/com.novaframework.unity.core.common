@@ -1,5 +1,5 @@
 /// -------------------------------------------------------------------------------
-/// Copyright (C) 2024 - 2025, Hurley, Independent Studio.
+/// Copyright (C) 2025, Hurley, Independent Studio.
 /// Copyright (C) 2025 - 2026, Hainan Yuanyou Information Technology Co., Ltd. Guangzhou Branch
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,37 +21,16 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
-using System;
-using UnityEditor;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace NovaFramework.Editor
+namespace NovaFramework.Editor.Preference
 {
     /// <summary>
-    /// 资源数据库辅助工具类，用于提供本地资产编辑的功能接口
+    /// 偏好设置的中心调度管理类，用于的框架中的所有配置窗口进行统一的调度管理
     /// </summary>
-    public static class AssetDatabaseUtils
+    public static class PreferenceCenter
     {
-        /// <summary>
-        /// 创建脚本对象资产数据
-        /// </summary>
-        /// <typeparam name="T">脚本对象类型</typeparam>
-        /// <param name="path">资产存放路径</param>
-        /// <param name="initCallback">初始化回调句柄</param>
-        /// <returns>返回新创建的脚步对象实例</returns>
-        public static T CreateScriptableObjectAsset<T>(string path, Action<T> initCallback = null) where T : ScriptableObject
-        {
-            T scriptableObject = ScriptableObject.CreateInstance<T>();
-            initCallback?.Invoke(scriptableObject);
-
-            // 创建并保存资产
-            AssetDatabase.CreateAsset(scriptableObject, path);
-            // 保存所有资产的改动到磁盘上
-            AssetDatabase.SaveAssets();
-            // 刷新资源视图，使新创建的资产立即可见
-            AssetDatabase.Refresh();
-
-            return scriptableObject;
-        }
     }
 }
