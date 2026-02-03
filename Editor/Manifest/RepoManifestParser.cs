@@ -236,8 +236,12 @@ namespace NovaFramework.Editor.Manifest
                     return false;
                 }
 
-                string innerTextValue = child.InnerText.Trim();
-                if (!string.IsNullOrEmpty(innerTextValue))
+                string innerTextValue = GetXmlElementInnerText(child);
+                if (string.IsNullOrEmpty(innerTextValue))
+                {
+                    Logger.Error("目标节点‘{0}’中的文本内容不能为空，解析程序集标签数据失败！", child.Name);
+                }
+                else
                 {
                     assemblyDefinitionObject.tags.Add(innerTextValue);
                 }
@@ -295,8 +299,12 @@ namespace NovaFramework.Editor.Manifest
                 switch (child.Name)
                 {
                     case ElementName_ReferencePackage:
-                        string innerTextValue = child.InnerText.Trim();
-                        if (!string.IsNullOrEmpty(innerTextValue))
+                        string innerTextValue = GetXmlElementInnerText(child);
+                        if (string.IsNullOrEmpty(innerTextValue))
+                        {
+                            Logger.Error("目标节点‘{0}’中的文本内容不能为空，解析引用包数据失败！", child.Name);
+                        }
+                        else
                         {
                             packageObject.dependencies.Add(innerTextValue);
                         }
@@ -326,8 +334,12 @@ namespace NovaFramework.Editor.Manifest
                 switch (child.Name)
                 {
                     case ElementName_ReferencePackage:
-                        string innerTextValue = child.InnerText.Trim();
-                        if (!string.IsNullOrEmpty(innerTextValue))
+                        string innerTextValue = GetXmlElementInnerText(child);
+                        if (string.IsNullOrEmpty(innerTextValue))
+                        {
+                            Logger.Error("目标节点‘{0}’中的文本内容不能为空，解析引用包数据失败！", child.Name);
+                        }
+                        else
                         {
                             packageObject.repulsions.Add(innerTextValue);
                         }
@@ -347,11 +359,11 @@ namespace NovaFramework.Editor.Manifest
         /// <param name="manifest">清单对象实例</param>
         public static void ReplaceVariables(RepoManifest manifest)
         {
-            if (manifest?.variables == null || manifest.variables.Count == 0)
+            if (null == manifest?.variables || 0 == manifest.variables.Count)
                 return;
 
             // 构建变量字典
-            Dictionary<string, string> variableDict = new Dictionary<string, string>();
+            IDictionary<string, string> variableDict = new Dictionary<string, string>();
             foreach (var variable in manifest.variables)
             {
                 if (!string.IsNullOrEmpty(variable.key) && variable.value != null)
@@ -360,37 +372,37 @@ namespace NovaFramework.Editor.Manifest
                 }
             }
 
-            if (variableDict.Count == 0)
+            if (0 == variableDict.Count)
                 return;
 
             // 替换本地路径中的默认值
-            if (manifest.localPaths != null)
+            if (null != manifest.localPaths)
             {
                 foreach (var localPath in manifest.localPaths)
                 {
                     localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                    localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                    // localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
                 }
             }
 
             // 替换模块中的相关字段
-            if (manifest.modules != null)
+            if (null != manifest.modules)
             {
                 foreach (var module in manifest.modules)
                 {
-                    module.name = ReplaceVariablesInString(module.name, variableDict);
-                    module.displayName = ReplaceVariablesInString(module.displayName, variableDict);
-                    module.title = ReplaceVariablesInString(module.title, variableDict);
-                    module.description = ReplaceVariablesInString(module.description, variableDict);
+                    // module.name = ReplaceVariablesInString(module.name, variableDict);
+                    // module.displayName = ReplaceVariablesInString(module.displayName, variableDict);
+                    // module.title = ReplaceVariablesInString(module.title, variableDict);
+                    // module.description = ReplaceVariablesInString(module.description, variableDict);
                     module.gitRepositoryUrl = ReplaceVariablesInString(module.gitRepositoryUrl, variableDict);
 
                     // 替换资产源中的本地路径
-                    if (module.assetSourceObject?.localPaths != null)
+                    if (null != module.assetSourceObject?.localPaths)
                     {
                         foreach (var localPath in module.assetSourceObject.localPaths)
                         {
                             localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                            localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                            // localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
                         }
                     }
                 }
@@ -403,9 +415,9 @@ namespace NovaFramework.Editor.Manifest
         /// <param name="input">输入字符串</param>
         /// <param name="variables">变量字典</param>
         /// <returns>替换后的字符串</returns>
-        private static string ReplaceVariablesInString(string input, Dictionary<string, string> variables)
+        private static string ReplaceVariablesInString(string input, IDictionary<string, string> variables)
         {
-            if (string.IsNullOrEmpty(input) || variables == null || variables.Count == 0)
+            if (string.IsNullOrEmpty(input) || null == variables || 0 == variables.Count)
                 return input;
 
             string result = input;
@@ -416,6 +428,22 @@ namespace NovaFramework.Editor.Manifest
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 获取XML元素节点的文本内容
+        /// </summary>
+        /// <param name="node">XML节点</param>
+        /// <returns>返回文本内容</returns>
+        private static string GetXmlElementInnerText(XmlNode node)
+        {
+            string value = node.InnerText.Trim();
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+
+            return value;
         }
 
         /// <summary>

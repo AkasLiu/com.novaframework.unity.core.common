@@ -43,19 +43,16 @@ namespace NovaFramework.Editor.Manifest
             localPaths = new List<LocalPathObject>();
             modules = new List<PackageObject>();
 
-            string url = PersistencePath.AbsolutePathOfRepositoryManifestFile;
-            if (!RepoManifestParser.Parse(url, this))
-            {
-                Logger.Error("仓库资源配置清单解析失败，请检测目标文件‘{0}’格式是否正确后再重新加载数据！", url);
-                Clear();
-                return;
-            }
+            LoadData();
         }
 
+        /// <summary>
+        /// 重载清单数据
+        /// </summary>
         internal void LoadData()
         {
             Clear();
-            
+
             string url = PersistencePath.AbsolutePathOfRepositoryManifestFile;
             if (!RepoManifestParser.Parse(url, this))
             {
@@ -63,7 +60,7 @@ namespace NovaFramework.Editor.Manifest
                 Clear();
             }
         } 
-        
+
         /// <summary>
         /// 对象类清理回调接口
         /// </summary>
