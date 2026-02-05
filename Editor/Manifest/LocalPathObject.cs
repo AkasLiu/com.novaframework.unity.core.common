@@ -20,11 +20,14 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
+using System;
+
 namespace NovaFramework.Editor.Manifest
 {
     /// <summary>
     /// 本地路径数据模型的序列化对象类
     /// </summary>
+    [Serializable]
     public sealed class LocalPathObject
     {
         public string name;
