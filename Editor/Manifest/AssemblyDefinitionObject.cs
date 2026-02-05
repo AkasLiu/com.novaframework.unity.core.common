@@ -20,6 +20,7 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,6 +29,7 @@ namespace NovaFramework.Editor.Manifest
     /// <summary>
     /// 定义的程序集数据模型的序列化对象类
     /// </summary>
+    [Serializable]
     public sealed class AssemblyDefinitionObject
     {
         public string name;
