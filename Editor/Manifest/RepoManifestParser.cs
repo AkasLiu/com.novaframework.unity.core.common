@@ -48,9 +48,9 @@ namespace NovaFramework.Editor.Manifest
 
         private const string AttributeName_Pid = @"pid";
         private const string AttributeName_Name = @"name";
-        private const string AttributeName_DisplayName = @"displayName";
+        private const string AttributeName_DisplayName = @"display-name";
         private const string AttributeName_Value = @"value";
-        private const string AttributeName_DefaultValue = @"defaultValue";
+        private const string AttributeName_DefaultValue = @"default-value";
         private const string AttributeName_Title = @"title";
         private const string AttributeName_Description = @"description";
         private const string AttributeName_Required = @"required";
@@ -366,7 +366,7 @@ namespace NovaFramework.Editor.Manifest
             IDictionary<string, string> variableDict = new Dictionary<string, string>();
             foreach (var variable in manifest.variables)
             {
-                if (!string.IsNullOrEmpty(variable.key) && variable.value != null)
+                if (!string.IsNullOrEmpty(variable.key) && null != variable.value)
                 {
                     variableDict[variable.key] = variable.value;
                 }
@@ -376,14 +376,16 @@ namespace NovaFramework.Editor.Manifest
                 return;
 
             // 替换本地路径中的默认值
+            /*
             if (null != manifest.localPaths)
             {
                 foreach (var localPath in manifest.localPaths)
                 {
                     localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                    // localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                    localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
                 }
             }
+            */
 
             // 替换模块中的相关字段
             if (null != manifest.modules)
@@ -397,14 +399,16 @@ namespace NovaFramework.Editor.Manifest
                     module.gitRepositoryUrl = ReplaceVariablesInString(module.gitRepositoryUrl, variableDict);
 
                     // 替换资产源中的本地路径
+                    /*
                     if (null != module.assetSourceObject?.localPaths)
                     {
                         foreach (var localPath in module.assetSourceObject.localPaths)
                         {
                             localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                            // localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                            localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
                         }
                     }
+                    */
                 }
             }
         }

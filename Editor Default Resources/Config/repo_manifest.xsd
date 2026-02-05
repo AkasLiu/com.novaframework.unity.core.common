@@ -10,7 +10,7 @@
 
     <xs:complexType name="asset-local-path-type">
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="defaultValue" type="xs:string"/>
+        <xs:attribute name="default-value" type="xs:string"/>
         <xs:attribute name="title" type="xs:string"/>
         <xs:attribute name="required" type="xs:boolean"/>
     </xs:complexType>
@@ -73,7 +73,7 @@
         </xs:sequence>
         <xs:attribute name="pid" type="xs:integer" use="required"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
-        <xs:attribute name="displayName" type="xs:string"/>
+        <xs:attribute name="display-name" type="xs:string"/>
         <xs:attribute name="title" type="xs:string"/>
         <xs:attribute name="description" type="xs:string"/>
         <xs:attribute name="required" type="xs:boolean"/>
