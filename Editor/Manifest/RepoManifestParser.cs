@@ -363,16 +363,16 @@ namespace NovaFramework.Editor.Manifest
                 return;
 
             // 构建变量字典
-            IDictionary<string, string> variableDict = new Dictionary<string, string>();
+            IDictionary<string, string> vars = new Dictionary<string, string>();
             foreach (var variable in manifest.variables)
             {
                 if (!string.IsNullOrEmpty(variable.key) && null != variable.value)
                 {
-                    variableDict[variable.key] = variable.value;
+                    vars[variable.key] = variable.value;
                 }
             }
 
-            if (0 == variableDict.Count)
+            if (0 == vars.Count)
                 return;
 
             // 替换本地路径中的默认值
@@ -381,8 +381,8 @@ namespace NovaFramework.Editor.Manifest
             {
                 foreach (var localPath in manifest.localPaths)
                 {
-                    localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                    localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                    localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, vars);
+                    localPath.title = ReplaceVariablesInString(localPath.title, vars);
                 }
             }
             */
@@ -392,11 +392,11 @@ namespace NovaFramework.Editor.Manifest
             {
                 foreach (var module in manifest.modules)
                 {
-                    // module.name = ReplaceVariablesInString(module.name, variableDict);
-                    // module.displayName = ReplaceVariablesInString(module.displayName, variableDict);
-                    // module.title = ReplaceVariablesInString(module.title, variableDict);
-                    // module.description = ReplaceVariablesInString(module.description, variableDict);
-                    module.gitRepositoryUrl = ReplaceVariablesInString(module.gitRepositoryUrl, variableDict);
+                    // module.name = ReplaceVariablesInString(module.name, vars);
+                    // module.displayName = ReplaceVariablesInString(module.displayName, vars);
+                    // module.title = ReplaceVariablesInString(module.title, vars);
+                    // module.description = ReplaceVariablesInString(module.description, vars);
+                    module.gitRepositoryUrl = ReplaceVariablesInString(module.gitRepositoryUrl, vars);
 
                     // 替换资产源中的本地路径
                     /*
@@ -404,8 +404,8 @@ namespace NovaFramework.Editor.Manifest
                     {
                         foreach (var localPath in module.assetSourceObject.localPaths)
                         {
-                            localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, variableDict);
-                            localPath.title = ReplaceVariablesInString(localPath.title, variableDict);
+                            localPath.defaultValue = ReplaceVariablesInString(localPath.defaultValue, vars);
+                            localPath.title = ReplaceVariablesInString(localPath.title, vars);
                         }
                     }
                     */
