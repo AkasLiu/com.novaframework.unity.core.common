@@ -21,16 +21,25 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
+using System;
 
 namespace NovaFramework.Editor.Preference
 {
     /// <summary>
     /// 针对自动安装流程的单步对象类，用于定义属于指定模块的安装步骤
     /// </summary>
-    public abstract class InstallationStep
+    public interface InstallationStep
     {
-        public abstract void Install(System.Action onComplete);
-        public abstract void Uninstall(System.Action onComplete = null);
-        
+        /// <summary>
+        /// 安装回调函数
+        /// </summary>
+        /// <param name="onComplete">安装完成回调句柄</param>
+        void Install(Action onComplete);
+
+        /// <summary>
+        /// 卸载回调函数
+        /// </summary>
+        /// <param name="onComplete">卸载完成回调句柄</param>
+        void Uninstall(Action onComplete = null);
     }
 }
