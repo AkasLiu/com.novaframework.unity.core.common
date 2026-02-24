@@ -131,11 +131,20 @@
         <git-repository url="%REPO_URL%/com.novaframework.unity.fairygui.git"/>
     </package>
 
-    <!-- 教程实例库 -->
+    <!-- 游戏通用库 -->
     <package pid="101011"
+             name="com.gameframework.unity.common"
+             display-name="GameFramework.Common"
+             title="Game通用库"
+             description="针对Nova框架封装的部分通用接口及方法，用于业务层便捷使用">
+        <git-repository url="%REPO_URL%/com.gameframework.unity.common.git"/>
+    </package>
+
+    <!-- 游戏教程库 -->
+    <package pid="101012"
              name="com.gameframework.unity.sample"
              display-name="GameFramework.Sample"
-             title="Nova教程库"
+             title="Game教程库"
              description="针对Nova框架的特性以及调度方式，提供一些教程案例作为使用入门的参考">
         <git-repository url="%REPO_URL%/com.gameframework.unity.sample.git"/>
         <assembly-definition name="GameFramework.Sample" order="1">
@@ -143,13 +152,16 @@
             <loadable-strategy>Compile</loadable-strategy>
             <loadable-strategy>Tutorial</loadable-strategy>
         </assembly-definition>
+        <dependencies>
+            <reference-package>com.gameframework.unity.common</reference-package>
+        </dependencies>
     </package>
 
     <!-- 游戏启动器 -->
     <package pid="101021"
              name="com.gameframework.unity.launcher"
              display-name="GameFramework.Launcher"
-             title="Nova启动模版"
+             title="Game启动模版"
              description="针对Nova框架提供一套默认的启动流程代码模版，可以基于这套模版定制个性化的启动流程">
         <git-repository url="%REPO_URL%/com.gameframework.unity.launcher.git"/>
         <dependencies>
