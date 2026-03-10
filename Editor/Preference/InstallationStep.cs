@@ -34,7 +34,8 @@ namespace NovaFramework.Editor.Preference
         /// 安装回调函数
         /// </summary>
         /// <param name="onComplete">安装完成回调句柄</param>
-        void Install(Action onComplete);
+        /// <param name="addLog">日志输出回调，用于向进度窗口汇报执行步骤</param>
+        void Install(Action onComplete, Action<string> addLog = null);
 
         /// <summary>
         /// 卸载回调函数
