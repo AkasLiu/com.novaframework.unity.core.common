@@ -166,7 +166,6 @@
         <git-repository url="%REPO_URL%/com.gameframework.unity.launcher.git"/>
         <dependencies>
             <reference-package>com.novaframework.unity.core.configure</reference-package>
-            <reference-package>com.novaframework.unity.sharpziplib</reference-package>
         </dependencies>
     </package>
 
