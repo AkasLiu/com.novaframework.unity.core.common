@@ -164,6 +164,9 @@
              title="Game启动模版"
              description="针对Nova框架提供一套默认的启动流程代码模版，可以基于这套模版定制个性化的启动流程">
         <git-repository url="%REPO_URL%/com.gameframework.unity.launcher.git"/>
+        <installation-wizard>
+            <import-strategy name="GameEditor.Launcher" installable="true" configurable="true"/>
+        </installation-wizard>
         <dependencies>
             <reference-package>com.novaframework.unity.core.configure</reference-package>
         </dependencies>

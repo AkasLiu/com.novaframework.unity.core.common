@@ -34,5 +34,11 @@ namespace NovaFramework.Editor.Preference
         /// 窗口的分页名称
         /// </summary>
         public abstract string PagingName { get; }
+
+        /// <summary>
+        /// 绘制配置内容，子类重写此方法
+        /// 独立打开时由 OnGUI 调用，嵌入配置中心时由外部直接调用
+        /// </summary>
+        public abstract void OnDraw();
     }
 }
