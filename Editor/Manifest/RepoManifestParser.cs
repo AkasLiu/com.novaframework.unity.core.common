@@ -39,6 +39,9 @@ namespace NovaFramework.Editor.Manifest
         private const string ElementName_LocalPath = @"local-path";
         private const string ElementName_Package = @"package";
         private const string ElementName_GitRepository = @"git-repository";
+        private const string ElementName_OutputAssemblies = @"output-assemblies";
+        private const string ElementName_LocalAssembly = @"local-assembly";
+        private const string ElementName_ModularizeDefinition = @"modularize-definition";
         private const string ElementName_InstallationWizard = @"installation-wizard";
         private const string ElementName_ImportStrategy = @"import-strategy";
         private const string ElementName_AssemblyDefinition = @"assembly-definition";
@@ -203,6 +206,9 @@ namespace NovaFramework.Editor.Manifest
                     case ElementName_GitRepository:
                         if (!ParseTheNodeNamedGitRepositoryOfPackage(child, packageObject)) return false;
                         break;
+                    case ElementName_OutputAssemblies:
+                        if (!ParseTheNodeNamedOutputAssembliesOfPackage(child, packageObject)) return false;
+                        break;
                     case ElementName_InstallationWizard:
                         if (!ParseTheNodeNamedInstallationWizardOfPackage(child, packageObject)) return false;
                         break;
@@ -232,6 +238,95 @@ namespace NovaFramework.Editor.Manifest
         static bool ParseTheNodeNamedGitRepositoryOfPackage(XmlNode node, PackageObject packageObject)
         {
             packageObject.gitRepositoryUrl = GetXmlAttribute(node, AttributeName_Url);
+
+            return true;
+        }
+
+        static bool ParseTheNodeNamedOutputAssembliesOfPackage(XmlNode node, PackageObject packageObject)
+        {
+            packageObject.outputAssembliesObject = new OutputAssembliesObject();
+
+            XmlNodeList nodeList = node.ChildNodes;
+            for (int n = 0; null != nodeList && n < nodeList.Count; ++n)
+            {
+                XmlNode child = nodeList[n];
+
+                if (XmlNodeType.Element != child.NodeType || !child.Name.Equals(ElementName_LocalAssembly))
+                {
+                    Logger.Info("目标节点的类型‘{0}’或名称‘{1}’为非法格式，解析该节点数据失败！", child.NodeType.ToString(), child.Name);
+                    return false;
+                }
+
+                if (!ParseTheNodeNamedLocalAssembly(child, packageObject)) return false;
+            }
+
+            return true;
+        }
+
+        static bool ParseTheNodeNamedLocalAssembly(XmlNode node, PackageObject packageObject)
+        {
+            string name = GetXmlAttribute(node, AttributeName_Name);
+            bool installable = GetXmlAttributeAsBool(node, AttributeName_Installable);
+            bool configurable = GetXmlAttributeAsBool(node, AttributeName_Configurable);
+
+            ImportModuleObject importModuleObject = new ImportModuleObject()
+            {
+                name = name,
+                installable = installable,
+                configurable = configurable,
+            };
+
+            XmlNodeList nodeList = node.ChildNodes;
+            for (int n = 0; null != nodeList && n < nodeList.Count; ++n)
+            {
+                XmlNode child = nodeList[n];
+
+                if (XmlNodeType.Element != child.NodeType || !child.Name.Equals(ElementName_ModularizeDefinition))
+                {
+                    Logger.Info("目标节点的类型‘{0}’或名称‘{1}’为非法格式，解析该节点数据失败！", child.NodeType.ToString(), child.Name);
+                    return false;
+                }
+
+                if (!ParseTheNodeNamedAssemblyDefinitionOfPackage(child, importModuleObject)) return false;
+
+                importModuleObject.assemblyDefinitionObject.order += packageObject.pid * AssemblyOrderAssignedRangeValue;
+            }
+
+            packageObject.outputAssembliesObject.localAssemblies.Add(importModuleObject);
+
+            return true;
+        }
+
+        static bool ParseTheNodeNamedAssemblyDefinitionOfPackage(XmlNode node, ImportModuleObject importModuleObject)
+        {
+            AssemblyDefinitionObject assemblyDefinitionObject = new AssemblyDefinitionObject();
+
+            assemblyDefinitionObject.name = GetXmlAttribute(node, AttributeName_Name);
+            assemblyDefinitionObject.order = GetXmlAttributeAsInt(node, AttributeName_Order);
+
+            XmlNodeList nodeList = node.ChildNodes;
+            for (int n = 0; null != nodeList && n < nodeList.Count; ++n)
+            {
+                XmlNode child = nodeList[n];
+
+                if (XmlNodeType.Element != child.NodeType || !child.Name.Equals(ElementName_LoadableStrategy))
+                {
+                    Logger.Info("目标节点的类型‘{0}’或名称‘{1}’为非法格式，解析该节点数据失败！", child.NodeType.ToString(), child.Name);
+                    return false;
+                }
+
+                string innerTextValue = GetXmlElementInnerText(child);
+                if (string.IsNullOrEmpty(innerTextValue))
+                {
+                    Logger.Error("目标节点‘{0}’中的文本内容不能为空，解析程序集标签数据失败！", child.Name);
+                }
+                else
+                {
+                    assemblyDefinitionObject.tags.Add(innerTextValue);
+                }
+            }
+
+            importModuleObject.assemblyDefinitionObject = assemblyDefinitionObject;
 
             return true;
         }

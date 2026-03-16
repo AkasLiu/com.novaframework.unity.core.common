@@ -20,32 +20,17 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace NovaFramework.Editor.Manifest
 {
     /// <summary>
-    /// 模组包数据模型的序列化对象类
+    /// 本地程序集数据模型的序列化对象类
     /// </summary>
-    public sealed class PackageObject
+    [Serializable]
+    public class OutputAssembliesObject
     {
-        public int pid;
-        public string name;
-        public string displayName;
-        public string title;
-        public string description;
-        public bool required;
-
-        public string gitRepositoryUrl;
-
-        public OutputAssembliesObject outputAssembliesObject;
-
-        public InstallationObject installationObject;
-        public AssemblyDefinitionObject assemblyDefinitionObject;
-        public AssetSourceObject assetSourceObject;
-
-        public List<string> dependencies = new ();
-        public List<string> repulsions = new ();
+        public List<ImportModuleObject> localAssemblies = new ();
     }
 }

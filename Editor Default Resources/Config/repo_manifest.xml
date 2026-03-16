@@ -24,6 +24,10 @@
              title="Nova引擎核心通用库"
              required="true">
         <git-repository url="%REPO_URL%/com.novaframework.unity.core.common.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Common"/>
+            <local-assembly name="NovaEditor.Common"/>
+        </output-assemblies>
     </package>
     <package pid="100012"
              name="com.novaframework.unity.core.configure"
@@ -31,6 +35,10 @@
              title="Nova引擎核心配置库"
              required="true">
         <git-repository url="%REPO_URL%/com.novaframework.unity.core.configure.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Configure" installable="true" configurable="true"/>
+            <local-assembly name="NovaEditor.Configure"/>
+        </output-assemblies>
         <installation-wizard>
             <import-strategy name="NovaEditor.Configure" installable="true" configurable="true"/>
         </installation-wizard>
@@ -44,6 +52,10 @@
              title="Goo资产管理框架"
              required="true">
         <git-repository url="%REPO_URL%/GooAsset.git"/>
+        <output-assemblies>
+            <local-assembly name="GooAsset"/>
+            <local-assembly name="GooAsset.Editor" installable="true" configurable="true"/>
+        </output-assemblies>
         <installation-wizard>
             <import-strategy name="GooAsset.Editor" installable="true" configurable="true"/>
         </installation-wizard>
@@ -54,6 +66,13 @@
              title="Nova引擎框架"
              required="true">
         <git-repository url="%REPO_URL%/NovaFramework.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaEngine.Library"/>
+            <local-assembly name="NovaEngine.Kernel"/>
+            <local-assembly name="NovaEngine.Basic"/>
+            <local-assembly name="NovaEngine.Import"/>
+            <local-assembly name="NovaEngine.Editor"/>
+        </output-assemblies>
         <dependencies>
             <reference-package>com.yoseasoft.gooasset</reference-package>
             <reference-package>com.novaframework.unity.core.configure</reference-package>
@@ -66,6 +85,10 @@
              title="Nova引擎核心启动库"
              required="true">
         <git-repository url="%REPO_URL%/com.novaframework.unity.core.boot.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Boot"/>
+            <local-assembly name="NovaEditor.Boot" installable="true"/>
+        </output-assemblies>
         <installation-wizard>
             <import-strategy name="NovaEditor.Boot" installable="true"/>
         </installation-wizard>
@@ -84,24 +107,38 @@
              title="UniTask工具库"
              required="true">
         <git-repository url="%REPO_URL%/com.novaframework.unity.unitask.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.UniTask"/>
+            <local-assembly name="NovaEditor.UniTask"/>
+        </output-assemblies>
     </package>
     <package pid="100112"
              name="com.novaframework.unity.litjson"
              display-name="NovaFramework.LitJson"
              title="LitJson工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.litjson.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.LitJson"/>
+        </output-assemblies>
     </package>
     <package pid="100113"
              name="com.novaframework.unity.sharpziplib"
              display-name="NovaFramework.SharpZipLib"
              title="SharpZipLib工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.sharpziplib.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.SharpZipLib"/>
+        </output-assemblies>
     </package>
     <package pid="100211"
              name="com.novaframework.unity.protobuf"
              display-name="NovaFramework.Protobuf"
              title="Protobuf工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.protobuf.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Protobuf"/>
+            <local-assembly name="NovaFramework.Protobuf.Extension"/>
+        </output-assemblies>
         <dependencies>
             <reference-package>com.novaframework.unity.litjson</reference-package>
         </dependencies>
@@ -114,6 +151,9 @@
              display-name="NovaFramework.Streambuf"
              title="Streambuf工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.streambuf.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Streambuf"/>
+        </output-assemblies>
         <repulsions>
             <reference-package>com.novaframework.unity.protobuf</reference-package>
         </repulsions>
@@ -123,12 +163,19 @@
              display-name="NovaFramework.Luban"
              title="Luban工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.luban.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.Luban"/>
+        </output-assemblies>
     </package>
     <package pid="100311"
              name="com.novaframework.unity.fairygui"
              display-name="NovaFramework.FairyGUI"
              title="FairyGUI工具库">
         <git-repository url="%REPO_URL%/com.novaframework.unity.fairygui.git"/>
+        <output-assemblies>
+            <local-assembly name="NovaFramework.FairyGui"/>
+            <local-assembly name="NovaEditor.FairyGui"/>
+        </output-assemblies>
     </package>
 
     <!-- 游戏通用库 -->
@@ -138,6 +185,9 @@
              title="Game通用库"
              description="针对Nova框架封装的部分通用接口及方法，用于业务层便捷使用">
         <git-repository url="%REPO_URL%/com.gameframework.unity.common.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.Common"/>
+        </output-assemblies>
     </package>
 
     <!-- 游戏教程库 -->
@@ -147,6 +197,16 @@
              title="Game教程库"
              description="针对Nova框架的特性以及调度方式，提供一些教程案例作为使用入门的参考">
         <git-repository url="%REPO_URL%/com.gameframework.unity.sample.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.Sample">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                    <loadable-strategy>Compile</loadable-strategy>
+                    <loadable-strategy>Tutorial</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+            <local-assembly name="GameEdirot.Sample"/>
+        </output-assemblies>
         <assembly-definition name="GameFramework.Sample" order="1">
             <loadable-strategy>Module</loadable-strategy>
             <loadable-strategy>Compile</loadable-strategy>
@@ -164,6 +224,9 @@
              title="Game启动模版"
              description="针对Nova框架提供一套默认的启动流程代码模版，可以基于这套模版定制个性化的启动流程">
         <git-repository url="%REPO_URL%/com.gameframework.unity.launcher.git"/>
+        <output-assemblies>
+            <local-assembly name="GameEditor.Launcher" installable="true" configurable="true"/>
+        </output-assemblies>
         <installation-wizard>
             <import-strategy name="GameEditor.Launcher" installable="true" configurable="true"/>
         </installation-wizard>
@@ -179,6 +242,13 @@
              title="Protobuf服务模块"
              description="提供基于Protobuf协议解析及操作码注册管理">
         <git-repository url="%REPO_URL%/com.gameframework.unity.module.protocol.protobuf.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.Protocol.Protobuf">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+        </output-assemblies>
         <assembly-definition name="GameFramework.Protocol.Protobuf" order="1">
             <loadable-strategy>Module</loadable-strategy>
         </assembly-definition>
@@ -195,6 +265,13 @@
              title="Streambuf服务模块"
              description="提供基于Streambuf协议解析及操作码注册管理">
         <git-repository url="%REPO_URL%/com.gameframework.unity.module.protocol.streambuf.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.Protocol.Streambuf">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+        </output-assemblies>
         <assembly-definition name="GameFramework.Protocol.Streambuf" order="1">
             <loadable-strategy>Module</loadable-strategy>
         </assembly-definition>
@@ -211,6 +288,14 @@
              title="FairyGUI服务模块"
              description="封装FairyGUI窗口加载及组件访问服务，对外提供UI操作的便捷访问接口">
         <git-repository url="%REPO_URL%/com.gameframework.unity.module.view.fairygui.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.View.Fairygui">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                    <loadable-strategy>Compile</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+        </output-assemblies>
         <assembly-definition name="GameFramework.View.Fairygui" order="1">
             <loadable-strategy>Module</loadable-strategy>
             <loadable-strategy>Compile</loadable-strategy>
@@ -228,6 +313,13 @@
              title="UGUI服务模块"
              description="封装UGUI窗口加载及组件访问服务，对外提供UI操作的便捷访问接口">
         <git-repository url="%REPO_URL%/com.gameframework.unity.module.view.ugui.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.View.Ugui">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+        </output-assemblies>
         <assembly-definition name="GameFramework.View.Ugui" order="1">
             <loadable-strategy>Module</loadable-strategy>
         </assembly-definition>
@@ -243,6 +335,13 @@
              title="Goo资产名称检索器"
              description="提供基于Goo资产打包规则下的名称检索，对外提供基于名称进行资源访问的扩展操作的便捷访问接口">
         <git-repository url="%REPO_URL%/com.gameframework.unity.module.asset.namesearcher.git"/>
+        <output-assemblies>
+            <local-assembly name="GameFramework.Asset.NameSearcher">
+                <modularize-definition order="1">
+                    <loadable-strategy>Module</loadable-strategy>
+                </modularize-definition>
+            </local-assembly>
+        </output-assemblies>
         <assembly-definition name="GameFramework.Asset.NameSearcher" order="1">
             <loadable-strategy>Module</loadable-strategy>
         </assembly-definition>
