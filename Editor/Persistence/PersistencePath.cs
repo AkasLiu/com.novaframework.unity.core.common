@@ -24,11 +24,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 
-using NovaFramework.Editor.Manifest;
 using UnityEditor.Compilation;
-using UnityEngine;
+
 using Assembly = System.Reflection.Assembly;
 
 namespace NovaFramework.Editor
@@ -93,7 +91,7 @@ namespace NovaFramework.Editor
 
         public static List<Assembly> GetAssembliesFromModule(string module)
         {
-            PackageObject packageObject = RepoManifest.Instance.modules.Find(m => m.name == module);
+            Manifest.PackageObject packageObject = Manifest.RepoManifest.Instance.modules.Find(m => m.name == module);
             if (null == packageObject?.outputAssembliesObject || 0 == packageObject.outputAssembliesObject.localAssemblies.Count)
             {
                 Logger.Warn($"模块 {module} 没有outputAssembliesObject");
@@ -103,7 +101,7 @@ namespace NovaFramework.Editor
             Assembly[] allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
             List<Assembly> result = new List<Assembly>();
 
-            foreach (ImportModuleObject localAssembly in packageObject.outputAssembliesObject.localAssemblies)
+            foreach (Manifest.ImportModuleObject localAssembly in packageObject.outputAssembliesObject.localAssemblies)
             {
                 for (int n = 0; n < allAssemblies.Length; ++n)
                 {
@@ -125,7 +123,7 @@ namespace NovaFramework.Editor
         /// <returns>返回模块文件夹路径，未找到则返回null</returns>
         public static string FindModuleFolderByPackageName(string module)
         {
-            PackageObject packageObject = RepoManifest.Instance.modules.Find(m => m.name == module);
+            Manifest.PackageObject packageObject = Manifest.RepoManifest.Instance.modules.Find(m => m.name == module);
             if (null == packageObject?.outputAssembliesObject || 0 == packageObject.outputAssembliesObject.localAssemblies.Count)
             {
                 return null;
