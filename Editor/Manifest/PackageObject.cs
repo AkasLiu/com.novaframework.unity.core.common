@@ -41,8 +41,6 @@ namespace NovaFramework.Editor.Manifest
 
         public OutputAssembliesObject outputAssembliesObject;
 
-        public InstallationObject installationObject;
-        public AssemblyDefinitionObject assemblyDefinitionObject;
         public AssetSourceObject assetSourceObject;
 
         public List<string> dependencies = new ();

@@ -36,12 +36,9 @@
              required="true">
         <git-repository url="%REPO_URL%/com.novaframework.unity.core.configure.git"/>
         <output-assemblies>
-            <local-assembly name="NovaFramework.Configure" installable="true" configurable="true"/>
-            <local-assembly name="NovaEditor.Configure"/>
+            <local-assembly name="NovaFramework.Configure"/>
+            <local-assembly name="NovaEditor.Configure" installable="true" configurable="true"/>
         </output-assemblies>
-        <installation-wizard>
-            <import-strategy name="NovaEditor.Configure" installable="true" configurable="true"/>
-        </installation-wizard>
         <dependencies>
             <reference-package>com.novaframework.unity.core.common</reference-package>
         </dependencies>
@@ -56,9 +53,6 @@
             <local-assembly name="GooAsset"/>
             <local-assembly name="GooAsset.Editor" installable="true" configurable="true"/>
         </output-assemblies>
-        <installation-wizard>
-            <import-strategy name="GooAsset.Editor" installable="true" configurable="true"/>
-        </installation-wizard>
     </package>
     <package pid="100031"
              name="com.yoseasoft.novaframework"
@@ -89,9 +83,6 @@
             <local-assembly name="NovaFramework.Boot"/>
             <local-assembly name="NovaEditor.Boot" installable="true"/>
         </output-assemblies>
-        <installation-wizard>
-            <import-strategy name="NovaEditor.Boot" installable="true"/>
-        </installation-wizard>
         <dependencies>
             <reference-package>com.yoseasoft.gooasset</reference-package>
             <reference-package>com.novaframework.unity.core.common</reference-package>
@@ -207,11 +198,6 @@
             </local-assembly>
             <local-assembly name="GameEdirot.Sample"/>
         </output-assemblies>
-        <assembly-definition name="GameFramework.Sample" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-            <loadable-strategy>Compile</loadable-strategy>
-            <loadable-strategy>Tutorial</loadable-strategy>
-        </assembly-definition>
         <dependencies>
             <reference-package>com.gameframework.unity.common</reference-package>
         </dependencies>
@@ -227,9 +213,6 @@
         <output-assemblies>
             <local-assembly name="GameEditor.Launcher" installable="true" configurable="true"/>
         </output-assemblies>
-        <installation-wizard>
-            <import-strategy name="GameEditor.Launcher" installable="true" configurable="true"/>
-        </installation-wizard>
         <dependencies>
             <reference-package>com.novaframework.unity.core.configure</reference-package>
         </dependencies>
@@ -249,9 +232,6 @@
                 </modularize-definition>
             </local-assembly>
         </output-assemblies>
-        <assembly-definition name="GameFramework.Protocol.Protobuf" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-        </assembly-definition>
         <dependencies>
             <reference-package>com.novaframework.unity.protobuf</reference-package>
         </dependencies>
@@ -272,9 +252,6 @@
                 </modularize-definition>
             </local-assembly>
         </output-assemblies>
-        <assembly-definition name="GameFramework.Protocol.Streambuf" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-        </assembly-definition>
         <dependencies>
             <reference-package>com.novaframework.unity.streambuf</reference-package>
         </dependencies>
@@ -296,10 +273,6 @@
                 </modularize-definition>
             </local-assembly>
         </output-assemblies>
-        <assembly-definition name="GameFramework.View.Fairygui" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-            <loadable-strategy>Compile</loadable-strategy>
-        </assembly-definition>
         <asset-sources>
             <local-path name="GUI_PATH" default-value="Assets/_Resources/Gui" title="视图资源目录" required="true"/>
         </asset-sources>
@@ -320,9 +293,6 @@
                 </modularize-definition>
             </local-assembly>
         </output-assemblies>
-        <assembly-definition name="GameFramework.View.Ugui" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-        </assembly-definition>
         <asset-sources>
             <local-path name="GUI_PATH" default-value="Assets/_Resources/Gui" title="视图资源目录" required="true"/>
         </asset-sources>
@@ -342,9 +312,6 @@
                 </modularize-definition>
             </local-assembly>
         </output-assemblies>
-        <assembly-definition name="GameFramework.Asset.NameSearcher" order="1">
-            <loadable-strategy>Module</loadable-strategy>
-        </assembly-definition>
         <dependencies>
             <reference-package>com.yoseasoft.gooasset</reference-package>
             <reference-package>com.novaframework.unity.litjson</reference-package>

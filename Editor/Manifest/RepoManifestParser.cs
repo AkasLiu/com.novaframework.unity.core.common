@@ -42,9 +42,6 @@ namespace NovaFramework.Editor.Manifest
         private const string ElementName_OutputAssemblies = @"output-assemblies";
         private const string ElementName_LocalAssembly = @"local-assembly";
         private const string ElementName_ModularizeDefinition = @"modularize-definition";
-        private const string ElementName_InstallationWizard = @"installation-wizard";
-        private const string ElementName_ImportStrategy = @"import-strategy";
-        private const string ElementName_AssemblyDefinition = @"assembly-definition";
         private const string ElementName_LoadableStrategy = @"loadable-strategy";
         private const string ElementName_AssetSources = @"asset-sources";
         private const string ElementName_Dependencies = @"dependencies";
@@ -209,12 +206,6 @@ namespace NovaFramework.Editor.Manifest
                     case ElementName_OutputAssemblies:
                         if (!ParseTheNodeNamedOutputAssembliesOfPackage(child, packageObject)) return false;
                         break;
-                    case ElementName_InstallationWizard:
-                        if (!ParseTheNodeNamedInstallationWizardOfPackage(child, packageObject)) return false;
-                        break;
-                    case ElementName_AssemblyDefinition:
-                        if (!ParseTheNodeNamedAssemblyDefinitionOfPackage(child, packageObject)) return false;
-                        break;
                     case ElementName_AssetSources:
                         if (!ParseTheNodeNamedAssetSourcesOfPackage(child, packageObject)) return false;
                         break;
@@ -327,79 +318,6 @@ namespace NovaFramework.Editor.Manifest
             }
 
             importModuleObject.assemblyDefinitionObject = assemblyDefinitionObject;
-
-            return true;
-        }
-
-        static bool ParseTheNodeNamedInstallationWizardOfPackage(XmlNode node, PackageObject packageObject)
-        {
-            InstallationObject installationObject = new InstallationObject();
-
-            XmlNodeList nodeList = node.ChildNodes;
-            for (int n = 0; null != nodeList && n < nodeList.Count; ++n)
-            {
-                XmlNode child = nodeList[n];
-
-                if (XmlNodeType.Element != child.NodeType || !child.Name.Equals(ElementName_ImportStrategy))
-                {
-                    Logger.Info("目标节点的类型‘{0}’或名称‘{1}’为非法格式，解析该节点数据失败！", child.NodeType.ToString(), child.Name);
-                    return false;
-                }
-
-                if (!ParseTheNodeNamedImportStragety(child, installationObject.importModules)) return false;
-            }
-
-            packageObject.installationObject = installationObject;
-
-            return true;
-        }
-
-        static bool ParseTheNodeNamedImportStragety(XmlNode node, IList<ImportModuleObject> list)
-        {
-            string name = GetXmlAttribute(node, AttributeName_Name);
-            bool installable = GetXmlAttributeAsBool(node, AttributeName_Installable);
-            bool configurable = GetXmlAttributeAsBool(node, AttributeName_Configurable);
-
-            list.Add(new ImportModuleObject()
-            {
-                name = name,
-                installable = installable,
-                configurable = configurable,
-            });
-
-            return true;
-        }
-
-        static bool ParseTheNodeNamedAssemblyDefinitionOfPackage(XmlNode node, PackageObject packageObject)
-        {
-            AssemblyDefinitionObject assemblyDefinitionObject = new AssemblyDefinitionObject();
-
-            assemblyDefinitionObject.name = GetXmlAttribute(node, AttributeName_Name);
-            assemblyDefinitionObject.order = packageObject.pid * AssemblyOrderAssignedRangeValue + GetXmlAttributeAsInt(node, AttributeName_Order);
-
-            XmlNodeList nodeList = node.ChildNodes;
-            for (int n = 0; null != nodeList && n < nodeList.Count; ++n)
-            {
-                XmlNode child = nodeList[n];
-
-                if (XmlNodeType.Element != child.NodeType || !child.Name.Equals(ElementName_LoadableStrategy))
-                {
-                    Logger.Info("目标节点的类型‘{0}’或名称‘{1}’为非法格式，解析该节点数据失败！", child.NodeType.ToString(), child.Name);
-                    return false;
-                }
-
-                string innerTextValue = GetXmlElementInnerText(child);
-                if (string.IsNullOrEmpty(innerTextValue))
-                {
-                    Logger.Error("目标节点‘{0}’中的文本内容不能为空，解析程序集标签数据失败！", child.Name);
-                }
-                else
-                {
-                    assemblyDefinitionObject.tags.Add(innerTextValue);
-                }
-            }
-
-            packageObject.assemblyDefinitionObject = assemblyDefinitionObject;
 
             return true;
         }
