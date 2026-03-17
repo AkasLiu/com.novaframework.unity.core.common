@@ -35,12 +35,12 @@ namespace NovaFramework.Editor.Preference
         /// </summary>
         /// <param name="onComplete">安装完成回调句柄</param>
         /// <param name="addLog">日志输出回调，用于向进度窗口汇报执行步骤</param>
-        void Install(Action onMessage, Action onComplete, Action onError, Action<string> addLog);
+        void Install(Action onComplete, Action onError);
 
         /// <summary>
         /// 卸载回调函数
         /// </summary>
         /// <param name="onComplete">卸载完成回调句柄</param>
-        void Uninstall(Action onMessage, Action onComplete, Action onError);
+        void Uninstall(Action onComplete, Action onError);
     }
 }

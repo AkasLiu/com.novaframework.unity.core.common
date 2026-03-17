@@ -21,9 +21,15 @@
 /// THE SOFTWARE.
 /// -------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.IO;
-
 using UnityEditor;
+
+using NovaFramework.Editor.Manifest;
+using UnityEditor.Compilation;
+using UnityEngine;
+using Assembly = System.Reflection.Assembly;
 
 namespace NovaFramework.Editor
 {
@@ -38,6 +44,11 @@ namespace NovaFramework.Editor
         public const string LocalPackageNameOfCommonModule = @"com.novaframework.unity.core.common";
 
         /// <summary>
+        /// 通用模块的本地包名
+        /// </summary>
+        public const string CommonEditorAssemblyName = @"NovaEditor.Common";
+        
+        /// <summary>
         /// Nova框架基础文件夹的本地安装路径
         /// </summary>
         public const string LocalInstallPathOfNovaFrameworkDataFolder = @"Assets/../NovaFrameworkData/";
@@ -45,66 +56,87 @@ namespace NovaFramework.Editor
         /// Nova框架仓库文件夹的本地安装路径
         /// </summary>
         public const string LocalInstallPathOfNovaFrameworkRepositoryFolder = @"Assets/../NovaFrameworkData/framework_repo/";
-
+        
         /// <summary>
-        /// 获取指定模块的外部仓库地址
-        /// </summary>
-        /// <param name="module">模块名称</param>
-        /// <returns>返回模块的外部仓库路径</returns>
-        public static string ExternalRepositoryUrlOfTargetModule(string module)
-        {
-            return LocalInstallPathOfNovaFrameworkRepositoryFolder + module;
-        }
-
-        /// <summary>
-        /// 获取指定模块当前使用的仓库地址
+        /// 获取指定程序集返回的模块文件夹路径
         /// </summary>
         /// <param name="module">模块名称</param>
         /// <returns>返回模块的当前文件路径</returns>
-        public static string CurrentUsingRepositoryUrlOfTargetModule(string module)
+        public static string FindCurrentModuleFolder(string assemblyName)
         {
-            string url = ExternalRepositoryUrlOfTargetModule(module);
-
-            if (Directory.Exists(url))
+            string asmdefPath = CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(assemblyName);
+            if (string.IsNullOrEmpty(asmdefPath))
             {
-                return url;
+                Logger.Warn($"程序集 {assemblyName} 的asmdef路径为空");
+                return null;
             }
 
-            // 使用AssetDatabase查找模块文件夹
-            return FindModuleFolderPathUsingAssetDatabase(module);
-        }
+            string moduleFolderPath = Path.GetDirectoryName(Path.GetDirectoryName(asmdefPath));
+            if (!asmdefPath.StartsWith("Assets/"))
+            {
+                //默认存放在LocalInstallPathOfNovaFrameworkRepositoryFolder
+                moduleFolderPath = Path.GetDirectoryName(Path.GetDirectoryName(LocalInstallPathOfNovaFrameworkRepositoryFolder + asmdefPath.Substring("Packages".Length + 1))).Replace("\\","/");
+            }
 
+            return moduleFolderPath;
+        }
+        
         /// <summary>
-        /// 使用AssetDatabase查找指定模块的文件夹路径
+        /// 查找工程中程序集是否存在，找到一个符合的就返回true，否则返回false
         /// </summary>
         /// <param name="module">模块名称</param>
         /// <returns>返回有效的模块文件夹路径</returns>
-        private static string FindModuleFolderPathUsingAssetDatabase(string module)
+        public static bool IsModuleAssemblyExists(string module)
         {
-            // 使用AssetDatabase查找所有包含指定模块名称的文件夹路径
-            string[] guids = AssetDatabase.FindAssets(module, null);
+            return GetAssembliesFromModule(module).Count > 0;
+        }
 
-            for (int n = 0; null != guids && n < guids.Length; ++n)
+        public static List<Assembly> GetAssembliesFromModule(string module)
+        {
+            PackageObject packageObject = RepoManifest.Instance.modules.Find(m => m.name == module);
+            if (null == packageObject?.outputAssembliesObject || 0 == packageObject.outputAssembliesObject.localAssemblies.Count)
             {
-                string path = AssetDatabase.GUIDToAssetPath(guids[n]);
-                // 检查是否是文件夹而不是其他资产类型
-                if (Directory.Exists(path))
+                Logger.Warn($"模块 {module} 没有outputAssembliesObject");
+                return new List<Assembly>();
+            }
+
+            Assembly[] allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            List<Assembly> result = new List<Assembly>();
+
+            foreach (ImportModuleObject localAssembly in packageObject.outputAssembliesObject.localAssemblies)
+            {
+                for (int n = 0; n < allAssemblies.Length; ++n)
                 {
-                    // 检查文件夹名称是否完全匹配
-                    if (Path.GetFileName(path) == module)
+                    if (allAssemblies[n].GetName().Name == localAssembly.name)
                     {
-                        return path;
+                        result.Add(allAssemblies[n]);
+                        break;
                     }
                 }
             }
 
-            // 未找到资源
-            return null;
+            return result;
+        }
+        
+        /// <summary>
+        /// 根据模块包名获取其在工程中的文件夹路径
+        /// </summary>
+        /// <param name="module">模块包名</param>
+        /// <returns>返回模块文件夹路径，未找到则返回null</returns>
+        public static string FindModuleFolderByPackageName(string module)
+        {
+            PackageObject packageObject = RepoManifest.Instance.modules.Find(m => m.name == module);
+            if (null == packageObject?.outputAssembliesObject || 0 == packageObject.outputAssembliesObject.localAssemblies.Count)
+            {
+                return null;
+            }
+
+            return FindCurrentModuleFolder(packageObject.outputAssembliesObject.localAssemblies[0].name);
         }
 
         /// <summary>
         /// 仓库资源清单文件的绝对路径
         /// </summary>
-        internal static readonly string AbsolutePathOfRepositoryManifestFile = Path.Combine(CurrentUsingRepositoryUrlOfTargetModule(LocalPackageNameOfCommonModule), "Editor Default Resources/Config/repo_manifest.xml").Replace("\\", "/");
+        internal static readonly string AbsolutePathOfRepositoryManifestFile = Path.Combine(FindCurrentModuleFolder(CommonEditorAssemblyName), "Editor Default Resources/Config/repo_manifest.xml").Replace("\\", "/");
     }
 }
