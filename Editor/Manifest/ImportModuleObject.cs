@@ -34,5 +34,7 @@ namespace NovaFramework.Editor.Manifest
 
         public bool installable;
         public bool configurable;
+
+        public AssemblyDefinitionObject assemblyDefinitionObject;
     }
 }

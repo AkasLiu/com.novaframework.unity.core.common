@@ -21,6 +21,22 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="package-local-assembly-type">
+        <xs:sequence>
+            <xs:element name="modularize-definition" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="loadable-strategy" type="assembly-loadable-strategy-type" minOccurs="1" maxOccurs="unbounded" nillable="false"/>
+                    </xs:sequence>
+                    <xs:attribute name="order" type="xs:integer" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="installable" type="xs:boolean"/>
+        <xs:attribute name="configurable" type="xs:boolean"/>
+    </xs:complexType>
+
     <xs:complexType name="package-import-strategy-type">
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="installable" type="xs:boolean"/>
@@ -44,6 +60,13 @@
             <xs:element name="git-repository">
                 <xs:complexType>
                     <xs:attribute name="url" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="output-assemblies" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="local-assembly" type="package-local-assembly-type" minOccurs="1" maxOccurs="unbounded"/>
+                    </xs:sequence>
                 </xs:complexType>
             </xs:element>
             <xs:element name="installation-wizard" minOccurs="0" maxOccurs="1">
