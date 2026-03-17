@@ -81,7 +81,7 @@
         <git-repository url="%REPO_URL%/com.novaframework.unity.core.boot.git"/>
         <output-assemblies>
             <local-assembly name="NovaFramework.Boot"/>
-            <local-assembly name="NovaEditor.Boot" installable="true"/>
+            <local-assembly name="NovaEditor.Boot" installable="true" configurable="true"/>
         </output-assemblies>
         <dependencies>
             <reference-package>com.yoseasoft.gooasset</reference-package>
